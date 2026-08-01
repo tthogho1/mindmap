@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package mindmap.v1;
+
+option go_package = "mindmap/gen/mindmapv1;mindmapv1";
+
+// A point on the editor canvas.
+message Position {
+  double x = 1;
+  double y = 2;
+}
+
+// A single mind-map node. Children are nested to preserve the tree shape.
+message Node {
+  string id = 1;
+  string parent_id = 2;
+  string text = 3;
+  repeated Node children = 4;
+  string color = 5;      // hex, e.g. "#4A90E2"
+  string icon = 6;       // optional emoji / icon key
+  string image_path = 7; // optional local image path
+  bool collapsed = 8;
+  Position position = 9;    // free position when user drags a node
+  int64 created_at = 10;    // unix millis
+  int64 updated_at = 11;    // unix millis
+}
+
+// A whole document.
+message MindMap {
+  string id = 1;
+  string title = 2;
+  Node root = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+}
+
+// Lightweight metadata for listing documents without loading their trees.
+message MapSummary {
+  string id = 1;
+  string title = 2;
+  int64 created_at = 3;
+  int64 updated_at = 4;
+}
+
+message CreateMapRequest {
+  string title = 1;
+}
+
+message GetMapRequest {
+  string id = 1;
+}
+
+message ListMapsRequest {}
+
+message ListMapsResponse {
+  repeated MapSummary maps = 1;
+}
+
+// Replace the entire stored document (used by the editor's Save action).
+message SaveMapRequest {
+  MindMap map = 1;
+}
+
+message DeleteMapRequest {
+  string id = 1;
+}
+
+message AddNodeRequest {
+  string map_id = 1;
+  string parent_id = 2; // empty string attaches directly under root
+  string text = 3;
+  Position position = 4;
+}
+
+// Only set fields are applied; use the *_set flags to distinguish "clear" from
+// "leave unchanged" for the optional string/bool fields.
+message UpdateNodeRequest {
+  string map_id = 1;
+  string node_id = 2;
+  optional string text = 3;
+  optional string color = 4;
+  optional string icon = 5;
+  optional string image_path = 6;
+  optional bool collapsed = 7;
+  optional Position position = 8;
+}
+
+message DeleteNodeRequest {
+  string map_id = 1;
+  string node_id = 2;
+}
+
+// Reparent a node and optionally place it at an index among its new siblings.
+message MoveNodeRequest {
+  string map_id = 1;
+  string node_id = 2;
+  string new_parent_id = 3;
+  int32 index = 4;      // -1 appends
+  Position position = 5; // optional new free position
+}
+
+// Clears every node's free position so the map falls back to auto-layout.
+message ResetLayoutRequest {
+  string map_id = 1;
+}
+
+message UndoRequest {
+  string map_id = 1;
+}
+
+message RedoRequest {
+  string map_id = 1;
+}
+
+// All mutating RPCs return the full up-to-date document so the client can
+// re-render deterministically.
+service MindMapService {
+  rpc CreateMap(CreateMapRequest) returns (MindMap);
+  rpc GetMap(GetMapRequest) returns (MindMap);
+  rpc ListMaps(ListMapsRequest) returns (ListMapsResponse);
+  rpc SaveMap(SaveMapRequest) returns (MindMap);
+  rpc DeleteMap(DeleteMapRequest) returns (MindMap);
+
+  rpc AddNode(AddNodeRequest) returns (MindMap);
+  rpc UpdateNode(UpdateNodeRequest) returns (MindMap);
+  rpc DeleteNode(DeleteNodeRequest) returns (MindMap);
+  rpc MoveNode(MoveNodeRequest) returns (MindMap);
+  rpc ResetLayout(ResetLayoutRequest) returns (MindMap);
+
+  rpc Undo(UndoRequest) returns (MindMap);
+  rpc Redo(RedoRequest) returns (MindMap);
+}
