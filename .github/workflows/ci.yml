@@ -63,3 +63,70 @@ jobs:
           name: mindmap-macos
           path: frontend/build/macos/Build/Products/Debug/mindmap.app
           retention-days: 7
+
+  frontend-windows:
+    name: Flutter frontend (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.0'
+          channel: stable
+
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Scaffold Windows runner (if missing)
+        working-directory: frontend
+        run: flutter create --platforms=windows .
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: frontend
+        run: flutter analyze
+
+      - name: Test
+        working-directory: frontend
+        run: flutter test
+
+      - name: Build Windows (release)
+        working-directory: frontend
+        run: flutter build windows --release
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mindmap-windows
+          path: frontend/build/windows/x64/runner/Release/
+          retention-days: 7
+
+  backend-windows:
+    name: Go backend (Windows cross-compile)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Cross-compile for Windows
+        working-directory: backend
+        env:
+          GOOS: windows
+          GOARCH: amd64
+        run: go build -o mindmap-server.exe ./...
+
+      - name: Upload Windows server binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: mindmap-server-windows
+          path: backend/mindmap-server.exe
+          retention-days: 7
