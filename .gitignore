@@ -1,5 +1,7 @@
 # Go
 /backend/mindmap-server
+/backend/mindmap
+/backend/main
 *.test
 
 # Flutter / Dart
