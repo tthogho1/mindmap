@@ -67,6 +67,23 @@ class AppState extends ChangeNotifier {
     });
   }
 
+  /// Create a new map from a natural-language prompt using the server-side
+  /// LLM. Returns the created map or null on error.
+  Future<MindMap?> createFromPrompt(String prompt, {String? titleHint, int? maxNodes}) async {
+    return _guard(() async {
+      final req = CreateFromPromptRequest(
+        prompt: prompt,
+        titleHint: titleHint ?? '',
+        maxNodes: maxNodes ?? 200,
+      );
+      final m = await _stub.createMapFromPrompt(req);
+      current = m;
+      selectedNodeId = m.root.id;
+      await refreshList();
+      return m;
+    });
+  }
+
   Future<void> openMap(String id) async {
     await _guard(() async {
       final m = await _stub.getMap(GetMapRequest(id: id));

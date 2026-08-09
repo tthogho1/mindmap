@@ -57,6 +57,48 @@ class _HomeScreenState extends State<HomeScreen> {
     if (created != null && mounted) _openEditor();
   }
 
+  Future<void> _createFromPrompt() async {
+    final promptController = TextEditingController();
+    final titleController = TextEditingController(text: 'Untitled map');
+    final res = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Create map from prompt'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: promptController,
+              decoration: const InputDecoration(labelText: 'Prompt'),
+              autofocus: true,
+              keyboardType: TextInputType.multiline,
+              maxLines: 4,
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'Title (optional)'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Create'),
+          ),
+        ],
+      ),
+    );
+    if (res != true || !mounted) return;
+    final prompt = promptController.text.trim();
+    final title = titleController.text.trim();
+    if (prompt.isEmpty) return;
+    final state = context.read<AppState>();
+    final created = await state.createFromPrompt(prompt, titleHint: title.isEmpty ? null : title);
+    if (created != null && mounted) _openEditor();
+  }
+
   String _formatTime(int millis) {
     final dt = DateTime.fromMillisecondsSinceEpoch(millis);
     final d = '${dt.year}-${dt.month.toString().padLeft(2, '0')}-${dt.day.toString().padLeft(2, '0')}';
@@ -72,6 +114,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Mind Maps'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.smart_toy),
+            tooltip: 'Create from prompt',
+            onPressed: _createFromPrompt,
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: state.refreshList,

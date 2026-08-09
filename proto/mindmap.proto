@@ -112,10 +112,19 @@ message RedoRequest {
   string map_id = 1;
 }
 
+message CreateFromPromptRequest {
+  string prompt = 1;
+  string title_hint = 2; // optional title suggestion
+  int32 max_nodes = 3;   // optional cap on generated nodes
+}
+
 // All mutating RPCs return the full up-to-date document so the client can
 // re-render deterministically.
 service MindMapService {
   rpc CreateMap(CreateMapRequest) returns (MindMap);
+  // Create a MindMap from a natural-language prompt. The server will call an
+  // LLM to generate a hierarchical structure and return the saved map.
+  rpc CreateMapFromPrompt(CreateFromPromptRequest) returns (MindMap);
   rpc GetMap(GetMapRequest) returns (MindMap);
   rpc ListMaps(ListMapsRequest) returns (ListMapsResponse);
   rpc SaveMap(SaveMapRequest) returns (MindMap);
