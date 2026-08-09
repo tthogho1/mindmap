@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../dialogs/node_editor_dialog.dart';
 import '../services/png_export.dart';
+import '../services/mermaid_export.dart';
 import '../state/app_state.dart';
 import '../widgets/mindmap_canvas.dart';
 
@@ -91,6 +92,20 @@ class _EditorScreenState extends State<EditorScreen> {
             icon: const Icon(Icons.redo),
             tooltip: 'Redo (Cmd+Shift+Z)',
             onPressed: state.redo,
+          ),
+          IconButton(
+            icon: const Icon(Icons.code),
+            tooltip: 'Export Mermaid',
+            onPressed: state.current == null
+                ? null
+                : () async {
+                    final name = '${state.current?.title ?? 'mindmap'}';
+                    final path = await exportMindMapToMermaid(state.current!, name);
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(path == null ? 'Export cancelled' : 'Saved to $path')),
+                    );
+                  },
           ),
           const VerticalDivider(),
           IconButton(
