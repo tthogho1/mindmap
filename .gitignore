@@ -2,6 +2,9 @@
 /backend/mindmap-server
 /backend/mindmap
 /backend/main
+/backend/mindmap-server.exe
+/mindmap-server.exe
+/build/
 *.test
 
 # Flutter / Dart
