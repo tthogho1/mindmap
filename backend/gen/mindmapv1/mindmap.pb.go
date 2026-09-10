@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.35.1
-// source: proto/mindmap.proto
+// source: mindmap.proto
 
 package mindmapv1
 
@@ -32,7 +32,7 @@ type Position struct {
 
 func (x *Position) Reset() {
 	*x = Position{}
-	mi := &file_proto_mindmap_proto_msgTypes[0]
+	mi := &file_mindmap_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *Position) String() string {
 func (*Position) ProtoMessage() {}
 
 func (x *Position) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[0]
+	mi := &file_mindmap_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *Position) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Position.ProtoReflect.Descriptor instead.
 func (*Position) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{0}
+	return file_mindmap_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Position) GetX() float64 {
@@ -94,7 +94,7 @@ type Node struct {
 
 func (x *Node) Reset() {
 	*x = Node{}
-	mi := &file_proto_mindmap_proto_msgTypes[1]
+	mi := &file_mindmap_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -106,7 +106,7 @@ func (x *Node) String() string {
 func (*Node) ProtoMessage() {}
 
 func (x *Node) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[1]
+	mi := &file_mindmap_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -119,7 +119,7 @@ func (x *Node) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Node.ProtoReflect.Descriptor instead.
 func (*Node) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{1}
+	return file_mindmap_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Node) GetId() string {
@@ -213,7 +213,7 @@ type MindMap struct {
 
 func (x *MindMap) Reset() {
 	*x = MindMap{}
-	mi := &file_proto_mindmap_proto_msgTypes[2]
+	mi := &file_mindmap_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -225,7 +225,7 @@ func (x *MindMap) String() string {
 func (*MindMap) ProtoMessage() {}
 
 func (x *MindMap) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[2]
+	mi := &file_mindmap_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -238,7 +238,7 @@ func (x *MindMap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MindMap.ProtoReflect.Descriptor instead.
 func (*MindMap) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{2}
+	return file_mindmap_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MindMap) GetId() string {
@@ -289,7 +289,7 @@ type MapSummary struct {
 
 func (x *MapSummary) Reset() {
 	*x = MapSummary{}
-	mi := &file_proto_mindmap_proto_msgTypes[3]
+	mi := &file_mindmap_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -301,7 +301,7 @@ func (x *MapSummary) String() string {
 func (*MapSummary) ProtoMessage() {}
 
 func (x *MapSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[3]
+	mi := &file_mindmap_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -314,7 +314,7 @@ func (x *MapSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MapSummary.ProtoReflect.Descriptor instead.
 func (*MapSummary) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{3}
+	return file_mindmap_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *MapSummary) GetId() string {
@@ -354,7 +354,7 @@ type CreateMapRequest struct {
 
 func (x *CreateMapRequest) Reset() {
 	*x = CreateMapRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[4]
+	mi := &file_mindmap_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -366,7 +366,7 @@ func (x *CreateMapRequest) String() string {
 func (*CreateMapRequest) ProtoMessage() {}
 
 func (x *CreateMapRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[4]
+	mi := &file_mindmap_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -379,7 +379,7 @@ func (x *CreateMapRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateMapRequest.ProtoReflect.Descriptor instead.
 func (*CreateMapRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{4}
+	return file_mindmap_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateMapRequest) GetTitle() string {
@@ -398,7 +398,7 @@ type GetMapRequest struct {
 
 func (x *GetMapRequest) Reset() {
 	*x = GetMapRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[5]
+	mi := &file_mindmap_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -410,7 +410,7 @@ func (x *GetMapRequest) String() string {
 func (*GetMapRequest) ProtoMessage() {}
 
 func (x *GetMapRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[5]
+	mi := &file_mindmap_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +423,7 @@ func (x *GetMapRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMapRequest.ProtoReflect.Descriptor instead.
 func (*GetMapRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{5}
+	return file_mindmap_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetMapRequest) GetId() string {
@@ -441,7 +441,7 @@ type ListMapsRequest struct {
 
 func (x *ListMapsRequest) Reset() {
 	*x = ListMapsRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[6]
+	mi := &file_mindmap_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -453,7 +453,7 @@ func (x *ListMapsRequest) String() string {
 func (*ListMapsRequest) ProtoMessage() {}
 
 func (x *ListMapsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[6]
+	mi := &file_mindmap_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -466,7 +466,7 @@ func (x *ListMapsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMapsRequest.ProtoReflect.Descriptor instead.
 func (*ListMapsRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{6}
+	return file_mindmap_proto_rawDescGZIP(), []int{6}
 }
 
 type ListMapsResponse struct {
@@ -478,7 +478,7 @@ type ListMapsResponse struct {
 
 func (x *ListMapsResponse) Reset() {
 	*x = ListMapsResponse{}
-	mi := &file_proto_mindmap_proto_msgTypes[7]
+	mi := &file_mindmap_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -490,7 +490,7 @@ func (x *ListMapsResponse) String() string {
 func (*ListMapsResponse) ProtoMessage() {}
 
 func (x *ListMapsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[7]
+	mi := &file_mindmap_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -503,7 +503,7 @@ func (x *ListMapsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListMapsResponse.ProtoReflect.Descriptor instead.
 func (*ListMapsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{7}
+	return file_mindmap_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListMapsResponse) GetMaps() []*MapSummary {
@@ -523,7 +523,7 @@ type SaveMapRequest struct {
 
 func (x *SaveMapRequest) Reset() {
 	*x = SaveMapRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[8]
+	mi := &file_mindmap_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -535,7 +535,7 @@ func (x *SaveMapRequest) String() string {
 func (*SaveMapRequest) ProtoMessage() {}
 
 func (x *SaveMapRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[8]
+	mi := &file_mindmap_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -548,7 +548,7 @@ func (x *SaveMapRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveMapRequest.ProtoReflect.Descriptor instead.
 func (*SaveMapRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{8}
+	return file_mindmap_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SaveMapRequest) GetMap() *MindMap {
@@ -567,7 +567,7 @@ type DeleteMapRequest struct {
 
 func (x *DeleteMapRequest) Reset() {
 	*x = DeleteMapRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[9]
+	mi := &file_mindmap_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -579,7 +579,7 @@ func (x *DeleteMapRequest) String() string {
 func (*DeleteMapRequest) ProtoMessage() {}
 
 func (x *DeleteMapRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[9]
+	mi := &file_mindmap_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -592,7 +592,7 @@ func (x *DeleteMapRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteMapRequest.ProtoReflect.Descriptor instead.
 func (*DeleteMapRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{9}
+	return file_mindmap_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteMapRequest) GetId() string {
@@ -614,7 +614,7 @@ type AddNodeRequest struct {
 
 func (x *AddNodeRequest) Reset() {
 	*x = AddNodeRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[10]
+	mi := &file_mindmap_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -626,7 +626,7 @@ func (x *AddNodeRequest) String() string {
 func (*AddNodeRequest) ProtoMessage() {}
 
 func (x *AddNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[10]
+	mi := &file_mindmap_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -639,7 +639,7 @@ func (x *AddNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddNodeRequest.ProtoReflect.Descriptor instead.
 func (*AddNodeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{10}
+	return file_mindmap_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *AddNodeRequest) GetMapId() string {
@@ -688,7 +688,7 @@ type UpdateNodeRequest struct {
 
 func (x *UpdateNodeRequest) Reset() {
 	*x = UpdateNodeRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[11]
+	mi := &file_mindmap_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -700,7 +700,7 @@ func (x *UpdateNodeRequest) String() string {
 func (*UpdateNodeRequest) ProtoMessage() {}
 
 func (x *UpdateNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[11]
+	mi := &file_mindmap_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -713,7 +713,7 @@ func (x *UpdateNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNodeRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNodeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{11}
+	return file_mindmap_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UpdateNodeRequest) GetMapId() string {
@@ -782,7 +782,7 @@ type DeleteNodeRequest struct {
 
 func (x *DeleteNodeRequest) Reset() {
 	*x = DeleteNodeRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[12]
+	mi := &file_mindmap_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -794,7 +794,7 @@ func (x *DeleteNodeRequest) String() string {
 func (*DeleteNodeRequest) ProtoMessage() {}
 
 func (x *DeleteNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[12]
+	mi := &file_mindmap_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -807,7 +807,7 @@ func (x *DeleteNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNodeRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNodeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{12}
+	return file_mindmap_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *DeleteNodeRequest) GetMapId() string {
@@ -838,7 +838,7 @@ type MoveNodeRequest struct {
 
 func (x *MoveNodeRequest) Reset() {
 	*x = MoveNodeRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[13]
+	mi := &file_mindmap_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -850,7 +850,7 @@ func (x *MoveNodeRequest) String() string {
 func (*MoveNodeRequest) ProtoMessage() {}
 
 func (x *MoveNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[13]
+	mi := &file_mindmap_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -863,7 +863,7 @@ func (x *MoveNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MoveNodeRequest.ProtoReflect.Descriptor instead.
 func (*MoveNodeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{13}
+	return file_mindmap_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *MoveNodeRequest) GetMapId() string {
@@ -911,7 +911,7 @@ type ResetLayoutRequest struct {
 
 func (x *ResetLayoutRequest) Reset() {
 	*x = ResetLayoutRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[14]
+	mi := &file_mindmap_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -923,7 +923,7 @@ func (x *ResetLayoutRequest) String() string {
 func (*ResetLayoutRequest) ProtoMessage() {}
 
 func (x *ResetLayoutRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[14]
+	mi := &file_mindmap_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -936,7 +936,7 @@ func (x *ResetLayoutRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResetLayoutRequest.ProtoReflect.Descriptor instead.
 func (*ResetLayoutRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{14}
+	return file_mindmap_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ResetLayoutRequest) GetMapId() string {
@@ -955,7 +955,7 @@ type UndoRequest struct {
 
 func (x *UndoRequest) Reset() {
 	*x = UndoRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[15]
+	mi := &file_mindmap_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -967,7 +967,7 @@ func (x *UndoRequest) String() string {
 func (*UndoRequest) ProtoMessage() {}
 
 func (x *UndoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[15]
+	mi := &file_mindmap_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -980,7 +980,7 @@ func (x *UndoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UndoRequest.ProtoReflect.Descriptor instead.
 func (*UndoRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{15}
+	return file_mindmap_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *UndoRequest) GetMapId() string {
@@ -999,7 +999,7 @@ type RedoRequest struct {
 
 func (x *RedoRequest) Reset() {
 	*x = RedoRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[16]
+	mi := &file_mindmap_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1011,7 +1011,7 @@ func (x *RedoRequest) String() string {
 func (*RedoRequest) ProtoMessage() {}
 
 func (x *RedoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[16]
+	mi := &file_mindmap_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1024,7 +1024,7 @@ func (x *RedoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedoRequest.ProtoReflect.Descriptor instead.
 func (*RedoRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{16}
+	return file_mindmap_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *RedoRequest) GetMapId() string {
@@ -1045,7 +1045,7 @@ type CreateFromPromptRequest struct {
 
 func (x *CreateFromPromptRequest) Reset() {
 	*x = CreateFromPromptRequest{}
-	mi := &file_proto_mindmap_proto_msgTypes[17]
+	mi := &file_mindmap_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1057,7 +1057,7 @@ func (x *CreateFromPromptRequest) String() string {
 func (*CreateFromPromptRequest) ProtoMessage() {}
 
 func (x *CreateFromPromptRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_mindmap_proto_msgTypes[17]
+	mi := &file_mindmap_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1070,7 +1070,7 @@ func (x *CreateFromPromptRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateFromPromptRequest.ProtoReflect.Descriptor instead.
 func (*CreateFromPromptRequest) Descriptor() ([]byte, []int) {
-	return file_proto_mindmap_proto_rawDescGZIP(), []int{17}
+	return file_mindmap_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *CreateFromPromptRequest) GetPrompt() string {
@@ -1094,11 +1094,11 @@ func (x *CreateFromPromptRequest) GetMaxNodes() int32 {
 	return 0
 }
 
-var File_proto_mindmap_proto protoreflect.FileDescriptor
+var File_mindmap_proto protoreflect.FileDescriptor
 
-const file_proto_mindmap_proto_rawDesc = "" +
+const file_mindmap_proto_rawDesc = "" +
 	"\n" +
-	"\x13proto/mindmap.proto\x12\n" +
+	"\rmindmap.proto\x12\n" +
 	"mindmap.v1\"&\n" +
 	"\bPosition\x12\f\n" +
 	"\x01x\x18\x01 \x01(\x01R\x01x\x12\f\n" +
@@ -1206,19 +1206,19 @@ const file_proto_mindmap_proto_rawDesc = "" +
 	"\x04Redo\x12\x17.mindmap.v1.RedoRequest\x1a\x13.mindmap.v1.MindMapB!Z\x1fmindmap/gen/mindmapv1;mindmapv1b\x06proto3"
 
 var (
-	file_proto_mindmap_proto_rawDescOnce sync.Once
-	file_proto_mindmap_proto_rawDescData []byte
+	file_mindmap_proto_rawDescOnce sync.Once
+	file_mindmap_proto_rawDescData []byte
 )
 
-func file_proto_mindmap_proto_rawDescGZIP() []byte {
-	file_proto_mindmap_proto_rawDescOnce.Do(func() {
-		file_proto_mindmap_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_mindmap_proto_rawDesc), len(file_proto_mindmap_proto_rawDesc)))
+func file_mindmap_proto_rawDescGZIP() []byte {
+	file_mindmap_proto_rawDescOnce.Do(func() {
+		file_mindmap_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_mindmap_proto_rawDesc), len(file_mindmap_proto_rawDesc)))
 	})
-	return file_proto_mindmap_proto_rawDescData
+	return file_mindmap_proto_rawDescData
 }
 
-var file_proto_mindmap_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
-var file_proto_mindmap_proto_goTypes = []any{
+var file_mindmap_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_mindmap_proto_goTypes = []any{
 	(*Position)(nil),                // 0: mindmap.v1.Position
 	(*Node)(nil),                    // 1: mindmap.v1.Node
 	(*MindMap)(nil),                 // 2: mindmap.v1.MindMap
@@ -1238,7 +1238,7 @@ var file_proto_mindmap_proto_goTypes = []any{
 	(*RedoRequest)(nil),             // 16: mindmap.v1.RedoRequest
 	(*CreateFromPromptRequest)(nil), // 17: mindmap.v1.CreateFromPromptRequest
 }
-var file_proto_mindmap_proto_depIdxs = []int32{
+var file_mindmap_proto_depIdxs = []int32{
 	1,  // 0: mindmap.v1.Node.children:type_name -> mindmap.v1.Node
 	0,  // 1: mindmap.v1.Node.position:type_name -> mindmap.v1.Position
 	1,  // 2: mindmap.v1.MindMap.root:type_name -> mindmap.v1.Node
@@ -1280,27 +1280,27 @@ var file_proto_mindmap_proto_depIdxs = []int32{
 	0,  // [0:8] is the sub-list for field type_name
 }
 
-func init() { file_proto_mindmap_proto_init() }
-func file_proto_mindmap_proto_init() {
-	if File_proto_mindmap_proto != nil {
+func init() { file_mindmap_proto_init() }
+func file_mindmap_proto_init() {
+	if File_mindmap_proto != nil {
 		return
 	}
-	file_proto_mindmap_proto_msgTypes[11].OneofWrappers = []any{}
+	file_mindmap_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_mindmap_proto_rawDesc), len(file_proto_mindmap_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_mindmap_proto_rawDesc), len(file_mindmap_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_mindmap_proto_goTypes,
-		DependencyIndexes: file_proto_mindmap_proto_depIdxs,
-		MessageInfos:      file_proto_mindmap_proto_msgTypes,
+		GoTypes:           file_mindmap_proto_goTypes,
+		DependencyIndexes: file_mindmap_proto_depIdxs,
+		MessageInfos:      file_mindmap_proto_msgTypes,
 	}.Build()
-	File_proto_mindmap_proto = out.File
-	file_proto_mindmap_proto_goTypes = nil
-	file_proto_mindmap_proto_depIdxs = nil
+	File_mindmap_proto = out.File
+	file_mindmap_proto_goTypes = nil
+	file_mindmap_proto_depIdxs = nil
 }

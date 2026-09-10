@@ -279,3 +279,18 @@ const RedoRequest$json = {
 final $typed_data.Uint8List redoRequestDescriptor = $convert.base64Decode(
     'CgtSZWRvUmVxdWVzdBIVCgZtYXBfaWQYASABKAlSBW1hcElk');
 
+@$core.Deprecated('Use createFromPromptRequestDescriptor instead')
+const CreateFromPromptRequest$json = {
+  '1': 'CreateFromPromptRequest',
+  '2': [
+    {'1': 'prompt', '3': 1, '4': 1, '5': 9, '10': 'prompt'},
+    {'1': 'title_hint', '3': 2, '4': 1, '5': 9, '10': 'titleHint'},
+    {'1': 'max_nodes', '3': 3, '4': 1, '5': 5, '10': 'maxNodes'},
+  ],
+};
+
+/// Descriptor for `CreateFromPromptRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createFromPromptRequestDescriptor = $convert.base64Decode(
+    'ChdDcmVhdGVGcm9tUHJvbXB0UmVxdWVzdBIWCgZwcm9tcHQYASABKAlSBnByb21wdBIdCgp0aX'
+    'RsZV9oaW50GAIgASgJUgl0aXRsZUhpbnQSGwoJbWF4X25vZGVzGAMgASgFUghtYXhOb2Rlcw==');
+
