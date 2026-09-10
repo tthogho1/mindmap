@@ -72,6 +72,15 @@ cd backend && go run . -addr 127.0.0.1:50051
 cd frontend && flutter run -d macos
 ```
 
+### Windows package (no console window)
+
+If `mindmap-server.exe` sits next to `mindmap.exe`, the app starts it at launch
+and the server exits when the app does (`-exit-with-parent`). CI builds the
+server with `-ldflags "-H=windowsgui"` and copies it into the Release folder, so
+the `mindmap-windows` artifact runs with a single double-click and no console
+window. If a server is already listening on the port, the app just uses that
+one.
+
 ## Test
 
 ```bash

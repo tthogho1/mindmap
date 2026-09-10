@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 
 import 'screens/home_screen.dart';
 import 'services/mindmap_client.dart';
+import 'services/server_launcher.dart';
 import 'state/app_state.dart';
 
-void main() {
+Future<void> main() async {
   final client = MindMapClient();
+  await ensureServerRunning(host: client.host, port: client.port);
   runApp(MindMapApp(client: client));
 }
 

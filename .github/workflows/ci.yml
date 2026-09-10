@@ -1,42 +1,3 @@
-name: CI Build
-
-on:
-  push:
-    branches: ["**"]
-  pull_request:
-    branches: ["**"]
-
-jobs:
-  build:
-    name: Build (matrix)
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        go-version: ["1.20", "1.21"]
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: ${{ matrix.go-version }}
-
-      - name: Run build script
-        shell: bash
-        env:
-          TARGET_OS: ${{ matrix.os == 'windows-latest' && 'windows' || '' }}
-        run: |
-          chmod +x scripts/build.sh || true
-          ./scripts/build.sh
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mindmap-server-${{ matrix.os }}
-          path: build/bin
 name: CI
 
 on:
@@ -138,6 +99,17 @@ jobs:
         working-directory: frontend
         run: flutter build windows --release
 
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      # The app starts the server from its own folder. -H=windowsgui builds it
+      # without a console window.
+      - name: Bundle Go server next to the app
+        working-directory: backend
+        run: go build -ldflags "-H=windowsgui" -o ../frontend/build/windows/x64/runner/Release/mindmap-server.exe .
+
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
@@ -161,7 +133,7 @@ jobs:
         env:
           GOOS: windows
           GOARCH: amd64
-        run: go build -o mindmap-server.exe ./...
+        run: go build -ldflags "-H=windowsgui" -o mindmap-server.exe .
 
       - name: Upload Windows server binary
         uses: actions/upload-artifact@v4

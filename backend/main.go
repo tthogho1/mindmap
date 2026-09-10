@@ -3,6 +3,7 @@ package main
 
 import (
 	"flag"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -28,6 +29,7 @@ func defaultDataDir() string {
 func main() {
 	addr := flag.String("addr", "127.0.0.1:50051", "gRPC listen address")
 	dataDir := flag.String("data-dir", defaultDataDir(), "directory for map JSON files")
+	exitWithParent := flag.Bool("exit-with-parent", false, "shut down when stdin closes (set by the desktop app that launches the server)")
 	flag.Parse()
 
 	st, err := store.New(*dataDir)
@@ -45,10 +47,19 @@ func main() {
 	mmv1.RegisterMindMapServiceServer(srv, service.New(st))
 	reflection.Register(srv) // enables grpcurl / debugging
 
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
+	if *exitWithParent {
+		// The launching app holds the other end of our stdin pipe. It closes
+		// whenever that app exits — even on a crash — so we never outlive it.
+		go func() {
+			_, _ = io.Copy(io.Discard, os.Stdin)
+			log.Println("parent exited")
+			shutdown <- syscall.SIGTERM
+		}()
+	}
 	go func() {
-		sig := make(chan os.Signal, 1)
-		signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
-		<-sig
+		<-shutdown
 		log.Println("shutting down")
 		srv.GracefulStop()
 	}()
