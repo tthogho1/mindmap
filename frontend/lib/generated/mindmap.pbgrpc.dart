@@ -36,6 +36,10 @@ class MindMapServiceClient extends $grpc.Client {
       '/mindmap.v1.MindMapService/CreateMap',
       ($0.CreateMapRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.MindMap.fromBuffer(value));
+  static final _$createMapFromPrompt = $grpc.ClientMethod<$0.CreateFromPromptRequest, $0.MindMap>(
+      '/mindmap.v1.MindMapService/CreateMapFromPrompt',
+      ($0.CreateFromPromptRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.MindMap.fromBuffer(value));
   static final _$getMap = $grpc.ClientMethod<$0.GetMapRequest, $0.MindMap>(
       '/mindmap.v1.MindMapService/GetMap',
       ($0.GetMapRequest value) => value.writeToBuffer(),
@@ -85,6 +89,12 @@ class MindMapServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.MindMap> createMap($0.CreateMapRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$createMap, request, options: options);
+  }
+
+  /// Create a MindMap from a natural-language prompt. The server will call an
+  /// LLM to generate a hierarchical structure and return the saved map.
+  $grpc.ResponseFuture<$0.MindMap> createMapFromPrompt($0.CreateFromPromptRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createMapFromPrompt, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.MindMap> getMap($0.GetMapRequest request, {$grpc.CallOptions? options}) {
@@ -143,6 +153,13 @@ abstract class MindMapServiceBase extends $grpc.Service {
         false,
         false,
         ($core.List<$core.int> value) => $0.CreateMapRequest.fromBuffer(value),
+        ($0.MindMap value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateFromPromptRequest, $0.MindMap>(
+        'CreateMapFromPrompt',
+        createMapFromPrompt_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.CreateFromPromptRequest.fromBuffer(value),
         ($0.MindMap value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.GetMapRequest, $0.MindMap>(
         'GetMap',
@@ -227,6 +244,10 @@ abstract class MindMapServiceBase extends $grpc.Service {
     return createMap($call, await $request);
   }
 
+  $async.Future<$0.MindMap> createMapFromPrompt_Pre($grpc.ServiceCall $call, $async.Future<$0.CreateFromPromptRequest> $request) async {
+    return createMapFromPrompt($call, await $request);
+  }
+
   $async.Future<$0.MindMap> getMap_Pre($grpc.ServiceCall $call, $async.Future<$0.GetMapRequest> $request) async {
     return getMap($call, await $request);
   }
@@ -272,6 +293,7 @@ abstract class MindMapServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.MindMap> createMap($grpc.ServiceCall call, $0.CreateMapRequest request);
+  $async.Future<$0.MindMap> createMapFromPrompt($grpc.ServiceCall call, $0.CreateFromPromptRequest request);
   $async.Future<$0.MindMap> getMap($grpc.ServiceCall call, $0.GetMapRequest request);
   $async.Future<$0.ListMapsResponse> listMaps($grpc.ServiceCall call, $0.ListMapsRequest request);
   $async.Future<$0.MindMap> saveMap($grpc.ServiceCall call, $0.SaveMapRequest request);

@@ -1188,6 +1188,76 @@ class RedoRequest extends $pb.GeneratedMessage {
   void clearMapId() => $_clearField(1);
 }
 
+class CreateFromPromptRequest extends $pb.GeneratedMessage {
+  factory CreateFromPromptRequest({
+    $core.String? prompt,
+    $core.String? titleHint,
+    $core.int? maxNodes,
+  }) {
+    final result = create();
+    if (prompt != null) result.prompt = prompt;
+    if (titleHint != null) result.titleHint = titleHint;
+    if (maxNodes != null) result.maxNodes = maxNodes;
+    return result;
+  }
+
+  CreateFromPromptRequest._();
+
+  factory CreateFromPromptRequest.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(data, registry);
+  factory CreateFromPromptRequest.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateFromPromptRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'mindmap.v1'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'prompt')
+    ..aOS(2, _omitFieldNames ? '' : 'titleHint')
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'maxNodes', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  CreateFromPromptRequest clone() => CreateFromPromptRequest()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  CreateFromPromptRequest copyWith(void Function(CreateFromPromptRequest) updates) => super.copyWith((message) => updates(message as CreateFromPromptRequest)) as CreateFromPromptRequest;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CreateFromPromptRequest create() => CreateFromPromptRequest._();
+  @$core.override
+  CreateFromPromptRequest createEmptyInstance() => create();
+  static $pb.PbList<CreateFromPromptRequest> createRepeated() => $pb.PbList<CreateFromPromptRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CreateFromPromptRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateFromPromptRequest>(create);
+  static CreateFromPromptRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get prompt => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set prompt($core.String value) => $_setString(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasPrompt() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPrompt() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get titleHint => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set titleHint($core.String value) => $_setString(1, value);
+  @$pb.TagNumber(2)
+  $core.bool hasTitleHint() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTitleHint() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get maxNodes => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set maxNodes($core.int value) => $_setSignedInt32(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasMaxNodes() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearMaxNodes() => $_clearField(3);
+}
+
 
 const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

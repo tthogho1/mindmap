@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.2
 // - protoc             v7.35.1
-// source: proto/mindmap.proto
+// source: mindmap.proto
 
 package mindmapv1
 
@@ -583,5 +583,5 @@ var MindMapService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/mindmap.proto",
+	Metadata: "mindmap.proto",
 }
