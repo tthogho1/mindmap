@@ -37,9 +37,12 @@ class MindMapCanvas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final result = TreeLayout().layout(map.root);
+    final result = TreeLayout().layoutForest(map.root, map.unattached);
     final nodes = <String, Node>{};
     _collect(map.root, nodes);
+    for (final u in map.unattached) {
+      _collect(u, nodes);
+    }
 
     return InteractiveViewer(
       transformationController: transformationController,
@@ -59,7 +62,7 @@ class MindMapCanvas extends StatelessWidget {
               Positioned.fill(
                 child: CustomPaint(
                   painter: EdgePainter(
-                    root: map.root,
+                    roots: [map.root, ...map.unattached],
                     positions: result.positions,
                     visible: result.visible,
                     color: Theme.of(context)

@@ -63,6 +63,7 @@ const MindMap$json = {
     {'1': 'root', '3': 3, '4': 1, '5': 11, '6': '.mindmap.v1.Node', '10': 'root'},
     {'1': 'created_at', '3': 4, '4': 1, '5': 3, '10': 'createdAt'},
     {'1': 'updated_at', '3': 5, '4': 1, '5': 3, '10': 'updatedAt'},
+    {'1': 'unattached', '3': 6, '4': 3, '5': 11, '6': '.mindmap.v1.Node', '10': 'unattached'},
   ],
 };
 
@@ -70,7 +71,8 @@ const MindMap$json = {
 final $typed_data.Uint8List mindMapDescriptor = $convert.base64Decode(
     'CgdNaW5kTWFwEg4KAmlkGAEgASgJUgJpZBIUCgV0aXRsZRgCIAEoCVIFdGl0bGUSJAoEcm9vdB'
     'gDIAEoCzIQLm1pbmRtYXAudjEuTm9kZVIEcm9vdBIdCgpjcmVhdGVkX2F0GAQgASgDUgljcmVh'
-    'dGVkQXQSHQoKdXBkYXRlZF9hdBgFIAEoA1IJdXBkYXRlZEF0');
+    'dGVkQXQSHQoKdXBkYXRlZF9hdBgFIAEoA1IJdXBkYXRlZEF0EjAKCnVuYXR0YWNoZWQYBiADKA'
+    'syEC5taW5kbWFwLnYxLk5vZGVSCnVuYXR0YWNoZWQ=');
 
 @$core.Deprecated('Use mapSummaryDescriptor instead')
 const MapSummary$json = {
@@ -168,6 +170,7 @@ const AddNodeRequest$json = {
     {'1': 'parent_id', '3': 2, '4': 1, '5': 9, '10': 'parentId'},
     {'1': 'text', '3': 3, '4': 1, '5': 9, '10': 'text'},
     {'1': 'position', '3': 4, '4': 1, '5': 11, '6': '.mindmap.v1.Position', '10': 'position'},
+    {'1': 'standalone', '3': 5, '4': 1, '5': 8, '10': 'standalone'},
   ],
 };
 
@@ -175,7 +178,8 @@ const AddNodeRequest$json = {
 final $typed_data.Uint8List addNodeRequestDescriptor = $convert.base64Decode(
     'Cg5BZGROb2RlUmVxdWVzdBIVCgZtYXBfaWQYASABKAlSBW1hcElkEhsKCXBhcmVudF9pZBgCIA'
     'EoCVIIcGFyZW50SWQSEgoEdGV4dBgDIAEoCVIEdGV4dBIwCghwb3NpdGlvbhgEIAEoCzIULm1p'
-    'bmRtYXAudjEuUG9zaXRpb25SCHBvc2l0aW9u');
+    'bmRtYXAudjEuUG9zaXRpb25SCHBvc2l0aW9uEh4KCnN0YW5kYWxvbmUYBSABKAhSCnN0YW5kYW'
+    'xvbmU=');
 
 @$core.Deprecated('Use updateNodeRequestDescriptor instead')
 const UpdateNodeRequest$json = {
@@ -233,6 +237,7 @@ const MoveNodeRequest$json = {
     {'1': 'new_parent_id', '3': 3, '4': 1, '5': 9, '10': 'newParentId'},
     {'1': 'index', '3': 4, '4': 1, '5': 5, '10': 'index'},
     {'1': 'position', '3': 5, '4': 1, '5': 11, '6': '.mindmap.v1.Position', '10': 'position'},
+    {'1': 'make_standalone', '3': 6, '4': 1, '5': 8, '10': 'makeStandalone'},
   ],
 };
 
@@ -241,7 +246,7 @@ final $typed_data.Uint8List moveNodeRequestDescriptor = $convert.base64Decode(
     'Cg9Nb3ZlTm9kZVJlcXVlc3QSFQoGbWFwX2lkGAEgASgJUgVtYXBJZBIXCgdub2RlX2lkGAIgAS'
     'gJUgZub2RlSWQSIgoNbmV3X3BhcmVudF9pZBgDIAEoCVILbmV3UGFyZW50SWQSFAoFaW5kZXgY'
     'BCABKAVSBWluZGV4EjAKCHBvc2l0aW9uGAUgASgLMhQubWluZG1hcC52MS5Qb3NpdGlvblIIcG'
-    '9zaXRpb24=');
+    '9zaXRpb24SJwoPbWFrZV9zdGFuZGFsb25lGAYgASgIUg5tYWtlU3RhbmRhbG9uZQ==');
 
 @$core.Deprecated('Use resetLayoutRequestDescriptor instead')
 const ResetLayoutRequest$json = {

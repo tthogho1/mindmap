@@ -24,13 +24,24 @@ class AppState extends ChangeNotifier {
     final m = current;
     final id = selectedNodeId;
     if (m == null || id == null) return null;
-    return _findNode(m.root, id);
+    return _findAnywhere(m, id);
   }
 
   Node? _findNode(Node n, String id) {
     if (n.id == id) return n;
     for (final c in n.children) {
       final found = _findNode(c, id);
+      if (found != null) return found;
+    }
+    return null;
+  }
+
+  /// Searches the root tree and every unattached subtree.
+  Node? _findAnywhere(MindMap m, String id) {
+    final inRoot = _findNode(m.root, id);
+    if (inRoot != null) return inRoot;
+    for (final u in m.unattached) {
+      final found = _findNode(u, id);
       if (found != null) return found;
     }
     return null;
@@ -114,9 +125,25 @@ class AppState extends ChangeNotifier {
         AddNodeRequest(mapId: m.id, parentId: parent, text: text),
       );
       // Select the newest child of the parent for a smooth "keep typing" flow.
-      final p = _findNode(updated.root, parent);
+      final p = _findAnywhere(updated, parent);
       if (p != null && p.children.isNotEmpty) {
         selectedNodeId = p.children.last.id;
+      }
+      _apply(updated);
+    });
+  }
+
+  /// Creates a free-floating node that isn't connected anywhere into the
+  /// tree. Drag it onto another node (or use [moveNode]) to link it in.
+  Future<void> addStandaloneNode({String text = 'New idea'}) async {
+    final m = current;
+    if (m == null) return;
+    await _guard(() async {
+      final updated = await _stub.addNode(
+        AddNodeRequest(mapId: m.id, text: text, standalone: true),
+      );
+      if (updated.unattached.isNotEmpty) {
+        selectedNodeId = updated.unattached.last.id;
       }
       _apply(updated);
     });
@@ -131,13 +158,33 @@ class AppState extends ChangeNotifier {
     return null;
   }
 
+  /// Searches the root tree and every unattached subtree; returns null both
+  /// when [id] isn't found and when it is itself a top-level unattached node
+  /// (which has no parent).
+  String? _parentIdOfAnywhere(MindMap m, String id) {
+    final inRoot = _parentIdOf(m.root, id);
+    if (inRoot != null) return inRoot;
+    for (final u in m.unattached) {
+      if (u.id == id) return null;
+      final found = _parentIdOf(u, id);
+      if (found != null) return found;
+    }
+    return null;
+  }
+
   /// Adds a sibling of the selected node (a child of the selection's parent).
-  /// Falls back to a root child when the root itself is selected.
+  /// Falls back to a root child when the root itself is selected, and to
+  /// another standalone node when a top-level unattached node is selected.
   Future<void> addSibling({String text = 'New idea'}) async {
     final m = current;
     if (m == null) return;
     final sel = selectedNodeId ?? m.root.id;
-    final parentId = sel == m.root.id ? m.root.id : _parentIdOf(m.root, sel);
+    if (m.unattached.any((u) => u.id == sel)) {
+      await addStandaloneNode(text: text);
+      return;
+    }
+    final parentId =
+        sel == m.root.id ? m.root.id : _parentIdOfAnywhere(m, sel);
     await addChild(parentId: parentId ?? m.root.id, text: text);
   }
 
@@ -170,11 +217,15 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> toggleCollapse(String id) async {
-    final node = current == null ? null : _findNode(current!.root, id);
+    final m = current;
+    final node = m == null ? null : _findAnywhere(m, id);
     if (node == null) return;
     await updateNode(id, collapsed: !node.collapsed);
   }
 
+  /// Reparents a node under [newParentId] -- this is also how a standalone
+  /// node gets linked (or later re-linked, by calling this again with a
+  /// different target) into the tree.
   Future<void> moveNode(String nodeId, String newParentId) async {
     final m = current;
     if (m == null) return;
@@ -184,6 +235,21 @@ class AppState extends ChangeNotifier {
         nodeId: nodeId,
         newParentId: newParentId,
         index: -1,
+      ));
+      _apply(updated);
+    });
+  }
+
+  /// Detaches a node (with its subtree) back into a free-floating,
+  /// unattached node.
+  Future<void> detachNode(String nodeId) async {
+    final m = current;
+    if (m == null) return;
+    await _guard(() async {
+      final updated = await _stub.moveNode(MoveNodeRequest(
+        mapId: m.id,
+        nodeId: nodeId,
+        makeStandalone: true,
       ));
       _apply(updated);
     });

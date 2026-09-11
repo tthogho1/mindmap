@@ -43,7 +43,7 @@ func TestMutateAndUndoRedo(t *testing.T) {
 	m, _ := s.Create("Doc")
 
 	after, err := s.Mutate(m.Id, func(mm *mmv1.MindMap) error {
-		_, e := model.AddNode(mm, "", "Child", nil)
+		_, e := model.AddNode(mm, "", "Child", nil, false)
 		return e
 	})
 	if err != nil {

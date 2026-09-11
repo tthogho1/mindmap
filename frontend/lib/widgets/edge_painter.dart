@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 import '../generated/mindmap.pb.dart';
 import '../layout/tree_layout.dart';
 
-/// Draws the connector curves from each visible node to its visible children.
+/// Draws the connector curves from each visible node to its visible children,
+/// for the root tree and, separately, for every unattached node's own
+/// subtree. Unattached nodes are never connected to the root tree itself --
+/// that's the point of them being unattached -- so each entry in [roots] is
+/// painted as its own independent group.
 class EdgePainter extends CustomPainter {
   EdgePainter({
-    required this.root,
+    required this.roots,
     required this.positions,
     required this.visible,
     required this.color,
   });
 
-  final Node root;
+  final List<Node> roots;
   final Map<String, Offset> positions;
   final Set<String> visible;
   final Color color;
@@ -23,7 +27,9 @@ class EdgePainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
-    _paintNode(canvas, root, paint);
+    for (final root in roots) {
+      _paintNode(canvas, root, paint);
+    }
   }
 
   void _paintNode(Canvas canvas, Node n, Paint paint) {
@@ -49,5 +55,5 @@ class EdgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant EdgePainter old) =>
-      old.positions != positions || old.color != color || old.root != root;
+      old.positions != positions || old.color != color || old.roots != roots;
 }

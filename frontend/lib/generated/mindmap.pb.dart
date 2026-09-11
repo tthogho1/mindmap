@@ -247,6 +247,7 @@ class MindMap extends $pb.GeneratedMessage {
     Node? root,
     $fixnum.Int64? createdAt,
     $fixnum.Int64? updatedAt,
+    $core.Iterable<Node>? unattached,
   }) {
     final result = create();
     if (id != null) result.id = id;
@@ -254,6 +255,7 @@ class MindMap extends $pb.GeneratedMessage {
     if (root != null) result.root = root;
     if (createdAt != null) result.createdAt = createdAt;
     if (updatedAt != null) result.updatedAt = updatedAt;
+    if (unattached != null) result.unattached.addAll(unattached);
     return result;
   }
 
@@ -268,6 +270,7 @@ class MindMap extends $pb.GeneratedMessage {
     ..aOM<Node>(3, _omitFieldNames ? '' : 'root', subBuilder: Node.create)
     ..aInt64(4, _omitFieldNames ? '' : 'createdAt')
     ..aInt64(5, _omitFieldNames ? '' : 'updatedAt')
+    ..pc<Node>(6, _omitFieldNames ? '' : 'unattached', $pb.PbFieldType.PM, subBuilder: Node.create)
     ..hasRequiredFields = false
   ;
 
@@ -334,6 +337,13 @@ class MindMap extends $pb.GeneratedMessage {
   $core.bool hasUpdatedAt() => $_has(4);
   @$pb.TagNumber(5)
   void clearUpdatedAt() => $_clearField(5);
+
+  /// Top-level nodes (each possibly the root of its own subtree) that are not
+  /// connected anywhere into the root tree. A node lives in exactly one place:
+  /// either reachable from `root`, or here. AddNode/MoveNode move nodes in and
+  /// out of this list; nothing else references it.
+  @$pb.TagNumber(6)
+  $pb.PbList<Node> get unattached => $_getList(5);
 }
 
 /// Lightweight metadata for listing documents without loading their trees.
@@ -682,12 +692,14 @@ class AddNodeRequest extends $pb.GeneratedMessage {
     $core.String? parentId,
     $core.String? text,
     Position? position,
+    $core.bool? standalone,
   }) {
     final result = create();
     if (mapId != null) result.mapId = mapId;
     if (parentId != null) result.parentId = parentId;
     if (text != null) result.text = text;
     if (position != null) result.position = position;
+    if (standalone != null) result.standalone = standalone;
     return result;
   }
 
@@ -701,6 +713,7 @@ class AddNodeRequest extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'parentId')
     ..aOS(3, _omitFieldNames ? '' : 'text')
     ..aOM<Position>(4, _omitFieldNames ? '' : 'position', subBuilder: Position.create)
+    ..aOB(5, _omitFieldNames ? '' : 'standalone')
     ..hasRequiredFields = false
   ;
 
@@ -758,6 +771,17 @@ class AddNodeRequest extends $pb.GeneratedMessage {
   void clearPosition() => $_clearField(4);
   @$pb.TagNumber(4)
   Position ensurePosition() => $_ensure(3);
+
+  /// When true, parent_id is ignored and the node is created unattached
+  /// (a free-floating node not connected into the tree).
+  @$pb.TagNumber(5)
+  $core.bool get standalone => $_getBF(4);
+  @$pb.TagNumber(5)
+  set standalone($core.bool value) => $_setBool(4, value);
+  @$pb.TagNumber(5)
+  $core.bool hasStandalone() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearStandalone() => $_clearField(5);
 }
 
 /// Only set fields are applied; use the *_set flags to distinguish "clear" from
@@ -960,6 +984,7 @@ class MoveNodeRequest extends $pb.GeneratedMessage {
     $core.String? newParentId,
     $core.int? index,
     Position? position,
+    $core.bool? makeStandalone,
   }) {
     final result = create();
     if (mapId != null) result.mapId = mapId;
@@ -967,6 +992,7 @@ class MoveNodeRequest extends $pb.GeneratedMessage {
     if (newParentId != null) result.newParentId = newParentId;
     if (index != null) result.index = index;
     if (position != null) result.position = position;
+    if (makeStandalone != null) result.makeStandalone = makeStandalone;
     return result;
   }
 
@@ -981,6 +1007,7 @@ class MoveNodeRequest extends $pb.GeneratedMessage {
     ..aOS(3, _omitFieldNames ? '' : 'newParentId')
     ..a<$core.int>(4, _omitFieldNames ? '' : 'index', $pb.PbFieldType.O3)
     ..aOM<Position>(5, _omitFieldNames ? '' : 'position', subBuilder: Position.create)
+    ..aOB(6, _omitFieldNames ? '' : 'makeStandalone')
     ..hasRequiredFields = false
   ;
 
@@ -1047,6 +1074,17 @@ class MoveNodeRequest extends $pb.GeneratedMessage {
   void clearPosition() => $_clearField(5);
   @$pb.TagNumber(5)
   Position ensurePosition() => $_ensure(4);
+
+  /// When true, new_parent_id/index are ignored and the node (with its
+  /// subtree) is detached into the map's unattached list instead.
+  @$pb.TagNumber(6)
+  $core.bool get makeStandalone => $_getBF(5);
+  @$pb.TagNumber(6)
+  set makeStandalone($core.bool value) => $_setBool(5, value);
+  @$pb.TagNumber(6)
+  $core.bool hasMakeStandalone() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearMakeStandalone() => $_clearField(6);
 }
 
 /// Clears every node's free position so the map falls back to auto-layout.

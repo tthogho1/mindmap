@@ -51,16 +51,29 @@ func NewMap(title string) *mmv1.MindMap {
 	}
 }
 
-// FindNode returns the node with the given id and its parent (nil parent for
-// the root). Both are nil when the id is absent.
-func FindNode(m *mmv1.MindMap, id string) (node, parent *mmv1.Node) {
-	if m == nil || m.Root == nil {
-		return nil, nil
+// FindNode returns the node with the given id, searching the root tree and
+// every unattached subtree. Returns nil when the id is absent.
+func FindNode(m *mmv1.MindMap, id string) *mmv1.Node {
+	if m == nil {
+		return nil
 	}
-	if m.Root.Id == id {
-		return m.Root, nil
+	if m.Root != nil {
+		if m.Root.Id == id {
+			return m.Root
+		}
+		if n, _ := find(m.Root, id); n != nil {
+			return n
+		}
 	}
-	return find(m.Root, id)
+	for _, u := range m.Unattached {
+		if u.Id == id {
+			return u
+		}
+		if n, _ := find(u, id); n != nil {
+			return n
+		}
+	}
+	return nil
 }
 
 func find(parent *mmv1.Node, id string) (*mmv1.Node, *mmv1.Node) {
@@ -75,73 +88,129 @@ func find(parent *mmv1.Node, id string) (*mmv1.Node, *mmv1.Node) {
 	return nil, nil
 }
 
-// AddNode creates a child under parentID (or under root when parentID is
-// empty) and returns the new node.
-func AddNode(m *mmv1.MindMap, parentID, text string, pos *mmv1.Position) (*mmv1.Node, error) {
-	parent := m.Root
-	if parentID != "" && parentID != m.Root.Id {
-		p, _ := FindNode(m, parentID)
-		if p == nil {
-			return nil, ErrNoParent
+// detach removes a node (and its whole subtree, intact) from wherever it
+// currently lives -- a parent's children, or the top-level unattached list --
+// and returns it detached from that location. It does not touch node.ParentId;
+// callers set that once they know the new location.
+func detach(m *mmv1.MindMap, id string) (*mmv1.Node, error) {
+	for i, u := range m.Unattached {
+		if u.Id == id {
+			m.Unattached = append(m.Unattached[:i:i], m.Unattached[i+1:]...)
+			return u, nil
 		}
-		parent = p
 	}
+	if m.Root != nil {
+		if n, p := find(m.Root, id); n != nil {
+			p.Children = removeChild(p.Children, id)
+			return n, nil
+		}
+	}
+	for _, u := range m.Unattached {
+		if n, p := find(u, id); n != nil {
+			p.Children = removeChild(p.Children, id)
+			return n, nil
+		}
+	}
+	return nil, ErrNotFound
+}
+
+// AddNode creates a node and returns it. When standalone is true, parentID is
+// ignored and the node is appended to the map's unattached list instead of
+// being placed under a parent. Otherwise it is added as a child of parentID
+// (or of root when parentID is empty).
+func AddNode(m *mmv1.MindMap, parentID, text string, pos *mmv1.Position, standalone bool) (*mmv1.Node, error) {
 	now := NowMillis()
 	n := &mmv1.Node{
 		Id:        NewID(),
-		ParentId:  parent.Id,
 		Text:      text,
 		Position:  pos,
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
+	if standalone {
+		m.Unattached = append(m.Unattached, n)
+		touch(m)
+		return n, nil
+	}
+	parent := m.Root
+	if parentID != "" && parentID != m.Root.Id {
+		p := FindNode(m, parentID)
+		if p == nil {
+			return nil, ErrNoParent
+		}
+		parent = p
+	}
+	n.ParentId = parent.Id
 	parent.Children = append(parent.Children, n)
 	touch(m)
 	return n, nil
 }
 
-// DeleteNode removes a node and its whole subtree.
+// DeleteNode removes a node and its whole subtree, wherever it currently
+// lives (the root tree or the unattached list).
 func DeleteNode(m *mmv1.MindMap, nodeID string) error {
 	if m.Root != nil && m.Root.Id == nodeID {
 		return ErrRootDelete
 	}
-	node, parent := FindNode(m, nodeID)
-	if node == nil {
-		return ErrNotFound
+	if _, err := detach(m, nodeID); err != nil {
+		return err
 	}
-	parent.Children = removeChild(parent.Children, nodeID)
 	touch(m)
 	return nil
 }
 
-// MoveNode reparents a node under newParentID, inserting it at index among the
-// new siblings (index < 0 or beyond the end appends). pos, when non-nil,
+// MoveNode relocates a node (with its subtree intact). When makeStandalone is
+// true, newParentID/index are ignored and the node is detached into the map's
+// unattached list -- this is how a node is disconnected back to floating.
+// Otherwise it is reparented under newParentID, inserted at index among the
+// new siblings (index < 0 or beyond the end appends); newParentID may name a
+// node in the root tree or in another unattached subtree, which is how a
+// standalone node gets linked (or re-linked) into place. pos, when non-nil,
 // overrides the node's free position.
-func MoveNode(m *mmv1.MindMap, nodeID, newParentID string, index int, pos *mmv1.Position) error {
+func MoveNode(m *mmv1.MindMap, nodeID, newParentID string, index int, pos *mmv1.Position, makeStandalone bool) error {
 	if m.Root != nil && m.Root.Id == nodeID {
 		return ErrRootDelete
 	}
-	node, oldParent := FindNode(m, nodeID)
+	node := FindNode(m, nodeID)
 	if node == nil {
 		return ErrNotFound
 	}
-	newParent := m.Root
-	if newParentID != "" && newParentID != m.Root.Id {
-		p, _ := FindNode(m, newParentID)
-		if p == nil {
-			return ErrNoParent
+
+	// Validate the destination (and the cycle check, which walks node's
+	// current children) before detaching -- detach would otherwise pull the
+	// node's whole subtree out of the map first, making a target that's one
+	// of its own descendants look "not found" instead of a cycle.
+	var newParent *mmv1.Node
+	if !makeStandalone {
+		newParent = m.Root
+		if newParentID != "" && newParentID != m.Root.Id {
+			p := FindNode(m, newParentID)
+			if p == nil {
+				return ErrNoParent
+			}
+			newParent = p
 		}
-		newParent = p
-	}
-	if newParent.Id == nodeID || isDescendant(node, newParent.Id) {
-		return ErrCycle
+		if newParent.Id == nodeID || isDescendant(node, newParent.Id) {
+			return ErrCycle
+		}
 	}
 
-	oldParent.Children = removeChild(oldParent.Children, nodeID)
-	node.ParentId = newParent.Id
+	if _, err := detach(m, nodeID); err != nil {
+		return err
+	}
 	if pos != nil {
 		node.Position = pos
 	}
+	node.UpdatedAt = NowMillis()
+
+	if makeStandalone {
+		node.ParentId = ""
+		m.Unattached = append(m.Unattached, node)
+		touch(m)
+		return nil
+	}
+
+	node.ParentId = newParent.Id
 	if index < 0 || index > len(newParent.Children) {
 		index = len(newParent.Children)
 	}
@@ -149,7 +218,6 @@ func MoveNode(m *mmv1.MindMap, nodeID, newParentID string, index int, pos *mmv1.
 	copy(newParent.Children[index+1:], newParent.Children[index:])
 	newParent.Children[index] = node
 
-	node.UpdatedAt = NowMillis()
 	touch(m)
 	return nil
 }
@@ -177,10 +245,15 @@ func removeChild(children []*mmv1.Node, id string) []*mmv1.Node {
 // ResetPositions clears the free position on every node so the client falls
 // back to auto-layout.
 func ResetPositions(m *mmv1.MindMap) {
-	if m == nil || m.Root == nil {
+	if m == nil {
 		return
 	}
-	clearPositions(m.Root)
+	if m.Root != nil {
+		clearPositions(m.Root)
+	}
+	for _, u := range m.Unattached {
+		clearPositions(u)
+	}
 	touch(m)
 }
 
