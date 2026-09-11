@@ -56,6 +56,19 @@ class _EditorScreenState extends State<EditorScreen> {
     );
   }
 
+  Future<void> _exportMermaid() async {
+    final state = context.read<AppState>();
+    final map = state.current;
+    if (map == null) return;
+
+    final name = map.title;
+    final path = await exportMindMapToMermaid(map, name);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(path == null ? 'Export cancelled' : 'Saved to $path')),
+    );
+  }
+
   Future<void> _editSelected() async {
     final state = context.read<AppState>();
     final node = state.selectedNode;
@@ -96,16 +109,7 @@ class _EditorScreenState extends State<EditorScreen> {
           IconButton(
             icon: const Icon(Icons.code),
             tooltip: 'Export Mermaid',
-            onPressed: state.current == null
-                ? null
-                : () async {
-                    final name = '${state.current?.title ?? 'mindmap'}';
-                    final path = await exportMindMapToMermaid(state.current!, name);
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(path == null ? 'Export cancelled' : 'Saved to $path')),
-                    );
-                  },
+            onPressed: state.current == null ? null : _exportMermaid,
           ),
           const VerticalDivider(),
           IconButton(
