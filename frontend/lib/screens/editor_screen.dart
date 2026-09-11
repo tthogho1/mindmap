@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../dialogs/node_editor_dialog.dart';
 import '../services/png_export.dart';
 import '../services/mermaid_export.dart';
+import '../services/excel_export.dart';
 import '../state/app_state.dart';
 import '../widgets/mindmap_canvas.dart';
 
@@ -69,6 +70,19 @@ class _EditorScreenState extends State<EditorScreen> {
     );
   }
 
+  Future<void> _exportExcel() async {
+    final state = context.read<AppState>();
+    final map = state.current;
+    if (map == null) return;
+
+    final name = map.title;
+    final path = await exportMindMapToExcel(map, name);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(path == null ? 'Export cancelled' : 'Saved to $path')),
+    );
+  }
+
   Future<void> _editSelected() async {
     final state = context.read<AppState>();
     final node = state.selectedNode;
@@ -110,6 +124,11 @@ class _EditorScreenState extends State<EditorScreen> {
             icon: const Icon(Icons.code),
             tooltip: 'Export Mermaid',
             onPressed: state.current == null ? null : _exportMermaid,
+          ),
+          IconButton(
+            icon: const Icon(Icons.grid_on),
+            tooltip: 'Export Excel',
+            onPressed: state.current == null ? null : _exportExcel,
           ),
           const VerticalDivider(),
           IconButton(
