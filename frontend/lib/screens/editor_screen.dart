@@ -152,10 +152,15 @@ class _EditorScreenState extends State<EditorScreen> {
       floatingActionButton: _Toolbar(
         onAddChild: () => state.addChild(),
         onAddSibling: () => state.addSibling(),
+        onAddStandalone: () => state.addStandaloneNode(),
         onEdit: _editSelected,
         onDelete: () {
           final id = state.selectedNodeId;
           if (id != null && id != map?.root.id) state.deleteNode(id);
+        },
+        onDetach: () {
+          final id = state.selectedNodeId;
+          if (id != null && id != map?.root.id) state.detachNode(id);
         },
       ),
       body: map == null
@@ -208,14 +213,18 @@ class _Toolbar extends StatelessWidget {
   const _Toolbar({
     required this.onAddChild,
     required this.onAddSibling,
+    required this.onAddStandalone,
     required this.onEdit,
     required this.onDelete,
+    required this.onDetach,
   });
 
   final VoidCallback onAddChild;
   final VoidCallback onAddSibling;
+  final VoidCallback onAddStandalone;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final VoidCallback onDetach;
 
   @override
   Widget build(BuildContext context) {
@@ -237,10 +246,24 @@ class _Toolbar extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         FloatingActionButton.small(
+          heroTag: 'standalone',
+          tooltip: 'Add unconnected node (drag onto another node to link it)',
+          onPressed: onAddStandalone,
+          child: const Icon(Icons.scatter_plot_outlined),
+        ),
+        const SizedBox(width: 8),
+        FloatingActionButton.small(
           heroTag: 'edit',
           tooltip: 'Edit node',
           onPressed: onEdit,
           child: const Icon(Icons.edit),
+        ),
+        const SizedBox(width: 8),
+        FloatingActionButton.small(
+          heroTag: 'detach',
+          tooltip: 'Detach from its link (becomes an unconnected node)',
+          onPressed: onDetach,
+          child: const Icon(Icons.link_off),
         ),
         const SizedBox(width: 8),
         FloatingActionButton.small(

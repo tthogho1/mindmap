@@ -56,6 +56,29 @@ class TreeLayout {
     );
   }
 
+  /// Lays out the root tree, then stacks each unattached node's own subtree
+  /// below it as a separate block. An unattached node is otherwise laid out
+  /// exactly like a root -- auto-tidied unless pinned -- so it reads clearly
+  /// as its own floating group until the user links it into the main tree.
+  TreeLayoutResult layoutForest(Node root, Iterable<Node> unattached) {
+    final main = layout(root);
+    final positions = <String, Offset>{...main.positions};
+    final visible = <String>{...main.visible};
+
+    var y = main.size.height;
+    var maxX = main.size.width;
+    for (final u in unattached) {
+      final sub = TreeLayout(hGap: hGap, vGap: vGap, margin: margin).layout(u);
+      for (final entry in sub.positions.entries) {
+        positions[entry.key] = Offset(entry.value.dx, entry.value.dy + y);
+      }
+      visible.addAll(sub.visible);
+      if (sub.size.width > maxX) maxX = sub.size.width;
+      y += sub.size.height;
+    }
+    return TreeLayoutResult(positions, Size(maxX, y), visible);
+  }
+
   double _computeAuto(Node n, int depth) {
     _visible.add(n.id);
     final x = margin + depth * hGap;

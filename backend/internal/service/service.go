@@ -87,7 +87,7 @@ func (s *Server) CreateMapFromPrompt(ctx context.Context, req *mmv1.CreateFromPr
 				continue
 			}
 			text, _ := obj["text"].(string)
-			node, _ := model.AddNode(m, parentId, text, nil)
+			node, _ := model.AddNode(m, parentId, text, nil, false)
 			if ch, ok := obj["children"].([]interface{}); ok && len(ch) > 0 {
 				addChildren(node.Id, ch)
 			}
@@ -201,7 +201,7 @@ func (s *Server) DeleteMap(_ context.Context, req *mmv1.DeleteMapRequest) (*mmv1
 
 func (s *Server) AddNode(_ context.Context, req *mmv1.AddNodeRequest) (*mmv1.MindMap, error) {
 	m, err := s.store.Mutate(req.GetMapId(), func(m *mmv1.MindMap) error {
-		_, err := model.AddNode(m, req.GetParentId(), req.GetText(), req.GetPosition())
+		_, err := model.AddNode(m, req.GetParentId(), req.GetText(), req.GetPosition(), req.GetStandalone())
 		return err
 	})
 	return m, toStatus(err)
@@ -209,7 +209,7 @@ func (s *Server) AddNode(_ context.Context, req *mmv1.AddNodeRequest) (*mmv1.Min
 
 func (s *Server) UpdateNode(_ context.Context, req *mmv1.UpdateNodeRequest) (*mmv1.MindMap, error) {
 	m, err := s.store.Mutate(req.GetMapId(), func(m *mmv1.MindMap) error {
-		node, _ := model.FindNode(m, req.GetNodeId())
+		node := model.FindNode(m, req.GetNodeId())
 		if node == nil {
 			return model.ErrNotFound
 		}
@@ -246,7 +246,7 @@ func (s *Server) DeleteNode(_ context.Context, req *mmv1.DeleteNodeRequest) (*mm
 
 func (s *Server) MoveNode(_ context.Context, req *mmv1.MoveNodeRequest) (*mmv1.MindMap, error) {
 	m, err := s.store.Mutate(req.GetMapId(), func(m *mmv1.MindMap) error {
-		return model.MoveNode(m, req.GetNodeId(), req.GetNewParentId(), int(req.GetIndex()), req.GetPosition())
+		return model.MoveNode(m, req.GetNodeId(), req.GetNewParentId(), int(req.GetIndex()), req.GetPosition(), req.GetMakeStandalone())
 	})
 	return m, toStatus(err)
 }

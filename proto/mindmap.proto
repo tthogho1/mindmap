@@ -32,6 +32,11 @@ message MindMap {
   Node root = 3;
   int64 created_at = 4;
   int64 updated_at = 5;
+  // Top-level nodes (each possibly the root of its own subtree) that are not
+  // connected anywhere into the root tree. A node lives in exactly one place:
+  // either reachable from `root`, or here. AddNode/MoveNode move nodes in and
+  // out of this list; nothing else references it.
+  repeated Node unattached = 6;
 }
 
 // Lightweight metadata for listing documents without loading their trees.
@@ -70,6 +75,9 @@ message AddNodeRequest {
   string parent_id = 2; // empty string attaches directly under root
   string text = 3;
   Position position = 4;
+  // When true, parent_id is ignored and the node is created unattached
+  // (a free-floating node not connected into the tree).
+  bool standalone = 5;
 }
 
 // Only set fields are applied; use the *_set flags to distinguish "clear" from
@@ -97,6 +105,9 @@ message MoveNodeRequest {
   string new_parent_id = 3;
   int32 index = 4;      // -1 appends
   Position position = 5; // optional new free position
+  // When true, new_parent_id/index are ignored and the node (with its
+  // subtree) is detached into the map's unattached list instead.
+  bool make_standalone = 6;
 }
 
 // Clears every node's free position so the map falls back to auto-layout.
